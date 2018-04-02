@@ -10,8 +10,6 @@ namespace Datat
 {
     public class SqlServerDataBase : AbsDataBase
     {
-        Param param;
-
         public SqlServerDataBase(Param param)
         {
             this.param = param;
@@ -61,7 +59,7 @@ namespace Datat
             }
 
             sql = "";
-            sql = sb.ToString().TrimEnd(',') + " into " + param.TargetTableName + ";";
+            sql = sb.ToString().TrimEnd(',') + string.Format(" into {0};TRUNCATE TABLE {0};", param.TargetTableName);
         }
     }
 }

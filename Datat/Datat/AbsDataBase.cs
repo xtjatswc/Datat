@@ -10,6 +10,8 @@ namespace Datat
 {
     public abstract class AbsDataBase
     {
+        public Param param;
+
         public abstract DataTable GetSourceTable();
         public abstract IDbContext GetDbContext();
         public abstract void GetCreateTableSql(DataTable tbl, out List<object> lstParams, out string sql);

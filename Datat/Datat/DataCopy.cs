@@ -38,7 +38,7 @@ namespace Datat
             StringBuilder sb2 = new StringBuilder();
             StringBuilder sb3 = new StringBuilder();
 
-            sb2.Append("insert into patientbasicinfo(");
+            sb2.AppendFormat("insert into {0}(", targetDatabase.param.TargetTableName);
             for (int i = 0; i < tbl.Columns.Count; i++)
             {
                 sb2.AppendFormat("{0},", tbl.Columns[i].ColumnName);

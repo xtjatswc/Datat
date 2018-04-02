@@ -12,21 +12,34 @@ namespace Datat
     {
         public void Test()
         {
-            Param p1 = new Param();
-            p1.ConnStr = "MysqlConnStr";
-            p1.SelectSql = "select * from patientbasicinfo";
-            p1.TargetTableName = "";
+            //Param p1 = new Param();
+            //p1.ConnStr = "MysqlConnStr";
+            //p1.SelectSql = "select * from patientbasicinfo";
+            //p1.TargetTableName = "";
+
+            //Param p2 = new Param();
+            //p2.ConnStr = "SqlServerConnStr";
+            //p2.SelectSql = "";
+            //p2.TargetTableName = "patientbasicinfo";
+
+            //DataCopy dataCopy = new DataCopy(new MysqlDataBase(p1), new SqlServerDataBase(p2));
+            //dataCopy.CopyTable();
+            //dataCopy.CopyData();
+
 
             Param p2 = new Param();
             p2.ConnStr = "SqlServerConnStr";
-            p2.SelectSql = "";
-            p2.TargetTableName = "patientbasicinfo";
+            p2.SelectSql = "select * from patientbasicinfo";
+            p2.TargetTableName = "";
 
-            DataCopy dataCopy = new DataCopy(new MysqlDataBase(p1), new SqlServerDataBase(p2));
+            Param p1 = new Param();
+            p1.ConnStr = "MysqlConnStr";
+            p1.SelectSql = "";
+            p1.TargetTableName = "patientbasicinfo2";
+
+            DataCopy dataCopy = new DataCopy(new SqlServerDataBase(p2), new MysqlDataBase(p1));
             dataCopy.CopyTable();
             dataCopy.CopyData();
-
-
 
 
 

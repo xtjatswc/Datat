@@ -10,8 +10,6 @@ namespace Datat
 {
     public class MysqlDataBase : AbsDataBase
     {
-        Param param;
-
         public MysqlDataBase(Param param)
         {
             this.param = param;
@@ -32,7 +30,8 @@ namespace Datat
         public override void GetCreateTableSql(DataTable tbl, out List<object> lstParams, out string sql)
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendFormat("Create table {0} Select ", param.TargetTableName);
+            StringBuilder sbModifyType = new StringBuilder(" ALTER TABLE " + param.TargetTableName + " ");
+            sb.AppendFormat(" Create table {0} Select ", param.TargetTableName);
 
             lstParams = new List<object>();
             for (int i = 0; i < tbl.Columns.Count; i++)
@@ -41,19 +40,19 @@ namespace Datat
                 switch (tbl.Columns[i].DataType.ToString())
                 {
                     case "System.Int64":
-                        row[i] = 0m;
+                        sbModifyType.Append("MODIFY COLUMN `" + tbl.Columns[i].ColumnName + "` bigint(0),");
                         break;
                     case "System.Single":
-                        row[i] = 0;
+                        sbModifyType.Append("MODIFY COLUMN `" + tbl.Columns[i].ColumnName + "` int(0),");
                         break;
                     case "System.String":
-                        row[i] = new byte[4000];
+                        sbModifyType.Append("MODIFY COLUMN `" + tbl.Columns[i].ColumnName + "` varchar(100),");
                         break;
                     case "System.DateTime":
-                        row[i] = DateTime.Now;
+                        sbModifyType.Append("MODIFY COLUMN `" + tbl.Columns[i].ColumnName + "` datetime,");
                         break;
                     default:
-                        row[i] = null;
+                        sbModifyType.Append("MODIFY COLUMN `" + tbl.Columns[i].ColumnName + "` varchar(100),");
                         break;
                 }
 
@@ -62,7 +61,7 @@ namespace Datat
             }
 
             sql = "";
-            sql = sb.ToString().TrimEnd(',') + ";";
+            sql = sb.ToString().TrimEnd(',') + ";TRUNCATE table " + param.TargetTableName + ";" + sbModifyType.ToString().TrimEnd(',') + ";";
         }
     }
 }
