@@ -15,8 +15,8 @@ namespace Datat
 		[STAThread]
 		private static void Main(string[] args)
 		{
-            Class1 class1 = new Class1();
-            class1.Test();
+            Class2 class2 = new Class2();
+            class2.Test();
             return;
 
 			Application.EnableVisualStyles();

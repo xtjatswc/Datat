@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Datat
 {
-    public class Class1
+    public class Class2
     {
         FluentContext fluentContext = new FluentContext();
 
@@ -17,10 +17,10 @@ namespace Datat
             IDbContext mysqlContext = fluentContext.getMysqlContext();
             IDbContext sqlServerContext = fluentContext.getSqlServerContext();
 
-            DataTable tbl = mysqlContext.Sql("select * from patientbasicinfo").QuerySingle<DataTable>();
+            DataTable tbl = sqlServerContext.Sql("select * from patientbasicinfo").QuerySingle<DataTable>();
 
             StringBuilder sb = new StringBuilder();
-            sb.Append("select ");
+            sb.Append("Create table patientbasicinfo2 Select ");
 
             List<object> lstParams = new List<object>();
             for (int i = 0; i < tbl.Columns.Count; i++)
@@ -29,13 +29,13 @@ namespace Datat
                 switch (tbl.Columns[i].DataType.ToString())
                 {
                     case "System.Int64":
-                        row[i] = 0;
+                        row[i] = 0m;
                         break;
                     case "System.Single":
                         row[i] = 0;
                         break;
                     case "System.String":
-                        row[i] = null;
+                        row[i] = new byte[4000];
                         break;
                     case "System.DateTime":
                         row[i] = DateTime.Now;
@@ -50,15 +50,15 @@ namespace Datat
             }
 
             string sql = "";
-            sql = sb.ToString().TrimEnd(',') + " into patientbasicinfo;";
+            sql = sb.ToString().TrimEnd(',') + ";";
 
-            int productId = sqlServerContext.Sql(sql).Parameters(lstParams.ToArray()).Execute();
+            int productId = mysqlContext.Sql(sql).Parameters(lstParams.ToArray()).Execute();
 
             //复制表数据
             StringBuilder sb2 = new StringBuilder();
             StringBuilder sb3 = new StringBuilder();
 
-            sb2.Append("insert into patientbasicinfo(");
+            sb2.Append("insert into patientbasicinfo2(");
             for (int i = 0; i < tbl.Columns.Count; i++)
             {
                 sb2.AppendFormat("{0},", tbl.Columns[i].ColumnName);
@@ -80,7 +80,7 @@ namespace Datat
                 {
                     lstParams2.Add(row[dc]);
                 }
-                int ret = sqlServerContext.Sql(sql).Parameters(lstParams2.ToArray()).Execute();
+                int ret = mysqlContext.Sql(sql).Parameters(lstParams2.ToArray()).Execute();
 
             }
 
