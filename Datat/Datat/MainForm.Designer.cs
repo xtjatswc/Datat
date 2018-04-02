@@ -29,12 +29,17 @@ namespace Datat
 		/// </summary>
 		private void InitializeComponent()
 		{
-			// 
-			// MainForm
-			// 
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Text = "Datat";
-			this.Name = "MainForm";
+            this.SuspendLayout();
+            // 
+            // MainForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(775, 443);
+            this.Name = "MainForm";
+            this.Text = "Datat";
+            this.ResumeLayout(false);
+
 		}
 	}
 }

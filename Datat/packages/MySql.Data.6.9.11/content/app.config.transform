@@ -1,12 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <configuration>
-  <startup>
-    <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5.1" />
-  </startup>
-  <connectionStrings>
-    <add name="MysqlConnStr" connectionString="Data Source=127.0.0.1;Password=cnis;User ID=cnis;DataBase=cnis;Port=3306;CharSet=utf8;"  />
-    <add name="SqlServerConnStr" connectionString="server=.\sqlexpress;uid=sa;pwd=sa;database=FastQuesDB;"  />
-  </connectionStrings>
   <system.data>
     <DbProviderFactories>
       <remove invariant="MySql.Data.MySqlClient" />
