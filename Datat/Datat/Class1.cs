@@ -27,17 +27,17 @@ namespace Datat
             //dataCopy.CopyData();
 
 
-            Param p2 = new Param();
-            p2.ConnStr = "SqlServerConnStr";
-            p2.SelectSql = "select * from patientbasicinfo";
-            p2.TargetTableName = "";
+            DbParam p2 = new DbParam();
+            p2.ConfigConnName = "SqlServerConnStr";
+            p2.InputSql = "select * from patientbasicinfo";
+            p2.TargetTblName = "";
 
-            Param p1 = new Param();
-            p1.ConnStr = "MysqlConnStr";
-            p1.SelectSql = "";
-            p1.TargetTableName = "patientbasicinfo2";
+            DbParam p1 = new DbParam();
+            p1.ConfigConnName = "MysqlConnStr";
+            p1.InputSql = "";
+            p1.TargetTblName = "patientbasicinfo2";
 
-            DataCopy dataCopy = new DataCopy(new SqlServerDataBase(p2), new MysqlDataBase(p1));
+            Transmitters dataCopy = new Transmitters(new SqlServerDataBase(p2), new MysqlDataBase(p1));
             dataCopy.CopyTable();
             dataCopy.CopyData();
 

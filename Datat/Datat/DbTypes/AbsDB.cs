@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Datat
 {
-    public abstract class AbsDataBase
+    public abstract class AbsDB
     {
-        public Param param;
+        public DbParam param;
 
         public abstract DataTable GetSourceTable();
         public abstract IDbContext GetDbContext();

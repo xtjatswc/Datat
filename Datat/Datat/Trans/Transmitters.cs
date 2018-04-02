@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Datat
 {
-    public class DataCopy
+    public class Transmitters
     {
-        public AbsDataBase sourceDatabase;
-        public AbsDataBase targetDatabase;
+        public AbsDB sourceDatabase;
+        public AbsDB targetDatabase;
 
-        public DataCopy(AbsDataBase sourceDatabase, AbsDataBase targetDatabase)
+        public Transmitters(AbsDB sourceDatabase, AbsDB targetDatabase)
         {
             this.sourceDatabase = sourceDatabase;
             this.targetDatabase = targetDatabase;
@@ -38,7 +38,7 @@ namespace Datat
             StringBuilder sb2 = new StringBuilder();
             StringBuilder sb3 = new StringBuilder();
 
-            sb2.AppendFormat("insert into {0}(", targetDatabase.param.TargetTableName);
+            sb2.AppendFormat("insert into {0}(", targetDatabase.param.TargetTblName);
             for (int i = 0; i < tbl.Columns.Count; i++)
             {
                 sb2.AppendFormat("{0},", tbl.Columns[i].ColumnName);

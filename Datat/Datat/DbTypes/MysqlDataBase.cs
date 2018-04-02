@@ -8,28 +8,30 @@ using FluentData;
 
 namespace Datat
 {
-    public class SqlServerDataBase : AbsDataBase
+    public class MysqlDataBase : AbsDB
     {
-        public SqlServerDataBase(Param param)
+        public MysqlDataBase(DbParam param)
         {
             this.param = param;
         }
 
         public override IDbContext GetDbContext()
         {
-            return new DbContext().ConnectionStringName(param.ConnStr,
-        new SqlServerProvider());
+            return new DbContext().ConnectionStringName(param.ConfigConnName,
+                    new MySqlProvider());
         }
 
         public override DataTable GetSourceTable()
         {
-            return GetDbContext().Sql(param.SelectSql).QuerySingle<DataTable>();
+            return GetDbContext().Sql(param.InputSql).QuerySingle<DataTable>();
+
         }
 
         public override void GetCreateTableSql(DataTable tbl, out List<object> lstParams, out string sql)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("select ");
+            StringBuilder sbModifyType = new StringBuilder(" ALTER TABLE " + param.TargetTblName + " ");
+            sb.AppendFormat(" Create table {0} Select ", param.TargetTblName);
 
             lstParams = new List<object>();
             for (int i = 0; i < tbl.Columns.Count; i++)
@@ -38,19 +40,19 @@ namespace Datat
                 switch (tbl.Columns[i].DataType.ToString())
                 {
                     case "System.Int64":
-                        row[i] = 0;
+                        sbModifyType.Append("MODIFY COLUMN `" + tbl.Columns[i].ColumnName + "` bigint(0),");
                         break;
                     case "System.Single":
-                        row[i] = 0;
+                        sbModifyType.Append("MODIFY COLUMN `" + tbl.Columns[i].ColumnName + "` int(0),");
                         break;
                     case "System.String":
-                        row[i] = null;
+                        sbModifyType.Append("MODIFY COLUMN `" + tbl.Columns[i].ColumnName + "` varchar(100),");
                         break;
                     case "System.DateTime":
-                        row[i] = DateTime.Now;
+                        sbModifyType.Append("MODIFY COLUMN `" + tbl.Columns[i].ColumnName + "` datetime,");
                         break;
                     default:
-                        row[i] = null;
+                        sbModifyType.Append("MODIFY COLUMN `" + tbl.Columns[i].ColumnName + "` varchar(100),");
                         break;
                 }
 
@@ -59,7 +61,7 @@ namespace Datat
             }
 
             sql = "";
-            sql = sb.ToString().TrimEnd(',') + string.Format(" into {0};TRUNCATE TABLE {0};", param.TargetTableName);
+            sql = sb.ToString().TrimEnd(',') + ";TRUNCATE table " + param.TargetTblName + ";" + sbModifyType.ToString().TrimEnd(',') + ";";
         }
     }
 }
