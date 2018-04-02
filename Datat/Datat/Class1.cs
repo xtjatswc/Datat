@@ -10,79 +10,26 @@ namespace Datat
 {
     public class Class1
     {
-        FluentContext fluentContext = new FluentContext();
-
         public void Test()
         {
-            IDbContext mysqlContext = fluentContext.getMysqlContext();
-            IDbContext sqlServerContext = fluentContext.getSqlServerContext();
+            Param p1 = new Param();
+            p1.ConnStr = "MysqlConnStr";
+            p1.SelectSql = "select * from patientbasicinfo";
+            p1.TargetTableName = "";
 
-            DataTable tbl = mysqlContext.Sql("select * from patientbasicinfo").QuerySingle<DataTable>();
+            Param p2 = new Param();
+            p2.ConnStr = "SqlServerConnStr";
+            p2.SelectSql = "";
+            p2.TargetTableName = "patientbasicinfo";
 
-            StringBuilder sb = new StringBuilder();
-            sb.Append("select ");
-
-            List<object> lstParams = new List<object>();
-            for (int i = 0; i < tbl.Columns.Count; i++)
-            {
-                DataRow row = tbl.NewRow();
-                switch (tbl.Columns[i].DataType.ToString())
-                {
-                    case "System.Int64":
-                        row[i] = 0;
-                        break;
-                    case "System.Single":
-                        row[i] = 0;
-                        break;
-                    case "System.String":
-                        row[i] = null;
-                        break;
-                    case "System.DateTime":
-                        row[i] = DateTime.Now;
-                        break;
-                    default:
-                        row[i] = null;
-                        break;
-                }
-
-                sb.AppendFormat(" @{0} {1},", i, tbl.Columns[i].ColumnName);
-                lstParams.Add(row[i]);
-            }
-
-            string sql = "";
-            sql = sb.ToString().TrimEnd(',') + " into patientbasicinfo;";
-
-            int productId = sqlServerContext.Sql(sql).Parameters(lstParams.ToArray()).Execute();
-
-            //复制表数据
-            StringBuilder sb2 = new StringBuilder();
-            StringBuilder sb3 = new StringBuilder();
-
-            sb2.Append("insert into patientbasicinfo(");
-            for (int i = 0; i < tbl.Columns.Count; i++)
-            {
-                sb2.AppendFormat("{0},", tbl.Columns[i].ColumnName);
-                sb3.AppendFormat("@{0},", i);
-            }
-            sb2 = new StringBuilder(sb2.ToString().TrimEnd(','));
-            sb2.Append(" )values(");
-            sb2.Append(sb3.ToString().TrimEnd(','));
-            sb2.Append("); ");
-
-            sql = sb2.ToString();
+            DataCopy dataCopy = new DataCopy(new MysqlDataBase(p1), new SqlServerDataBase(p2));
+            dataCopy.CopyTable();
+            dataCopy.CopyData();
 
 
-            foreach (DataRow row in tbl.Rows)
-            {
-                List<object> lstParams2 = new List<object>();
 
-                foreach (DataColumn dc in tbl.Columns)
-                {
-                    lstParams2.Add(row[dc]);
-                }
-                int ret = sqlServerContext.Sql(sql).Parameters(lstParams2.ToArray()).Execute();
 
-            }
+
 
         }
     }

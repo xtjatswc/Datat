@@ -16,41 +16,10 @@ namespace Datat
         {
             IDbContext mysqlContext = fluentContext.getMysqlContext();
             IDbContext sqlServerContext = fluentContext.getSqlServerContext();
-
-            DataTable tbl = sqlServerContext.Sql("select * from patientbasicinfo").QuerySingle<DataTable>();
-
-            StringBuilder sb = new StringBuilder();
-            sb.Append("Create table patientbasicinfo2 Select ");
-
-            List<object> lstParams = new List<object>();
-            for (int i = 0; i < tbl.Columns.Count; i++)
-            {
-                DataRow row = tbl.NewRow();
-                switch (tbl.Columns[i].DataType.ToString())
-                {
-                    case "System.Int64":
-                        row[i] = 0m;
-                        break;
-                    case "System.Single":
-                        row[i] = 0;
-                        break;
-                    case "System.String":
-                        row[i] = new byte[4000];
-                        break;
-                    case "System.DateTime":
-                        row[i] = DateTime.Now;
-                        break;
-                    default:
-                        row[i] = null;
-                        break;
-                }
-
-                sb.AppendFormat(" @{0} {1},", i, tbl.Columns[i].ColumnName);
-                lstParams.Add(row[i]);
-            }
-
-            string sql = "";
-            sql = sb.ToString().TrimEnd(',') + ";";
+            DataTable tbl;
+            List<object> lstParams;
+            string sql;
+            NewMethod(sqlServerContext, out tbl, out lstParams, out sql);
 
             int productId = mysqlContext.Sql(sql).Parameters(lstParams.ToArray()).Execute();
 
@@ -85,5 +54,7 @@ namespace Datat
             }
 
         }
+
+       
     }
 }
