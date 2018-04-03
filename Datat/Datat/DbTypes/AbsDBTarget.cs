@@ -19,10 +19,8 @@ namespace Datat.DbTypes
         /// 复制表数据
         /// </summary>
         /// <param name="absDBSource"></param>
-        public void CopyTableData(AbsDBSource absDBSource)
+        public void CopyTableData(DataTable tbl)
         {
-            DataTable tbl = absDBSource.GetSourceTable();
-
             string insertSql = GetInsertSql(tbl);
             string udpateSql = GetUpdateSql(tbl);
 

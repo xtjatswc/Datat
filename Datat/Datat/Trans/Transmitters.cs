@@ -13,17 +13,20 @@ namespace Datat
         public AbsDBSource sourceDatabase;
         public AbsDBTarget targetDatabase;
 
+        private DataTable tbl;
+
         public Transmitters(AbsDBSource sourceDatabase, AbsDBTarget targetDatabase)
         {
             this.sourceDatabase = sourceDatabase;
             this.targetDatabase = targetDatabase;
+
+            tbl = sourceDatabase.GetSourceTable();
         }
 
         public void CopyTableStructure()
         {
             try
             {
-                DataTable tbl = sourceDatabase.GetSourceTable();
                 List<object> lstParams;
                 string sql;
                 targetDatabase.GetCreateTableSql(tbl, out lstParams, out sql);
@@ -41,7 +44,7 @@ namespace Datat
 
         public void CopyTableData()
         {
-            targetDatabase.CopyTableData(sourceDatabase);
+            targetDatabase.CopyTableData(tbl);
         }
 
     }
