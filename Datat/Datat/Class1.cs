@@ -34,24 +34,6 @@ namespace Datat
                 Console.WriteLine(ex.StackTrace);
                 Thread.Sleep(10 * 1000);
             }
-
-            //DbParam p2 = new DbParam();
-            //p2.ConfigConnName = "SqlServerConnStr";
-            //p2.InputSql = "select * from patientbasicinfo";
-            //p2.TargetTblName = "";
-
-            //DbParam p1 = new DbParam();
-            //p1.ConfigConnName = "MysqlConnStr";
-            //p1.InputSql = "";
-            //p1.TargetTblName = "patientbasicinfo2";
-
-            //Transmitters dataCopy = new Transmitters(new SqlServerDataBase(p2), new MysqlDataBase(p1));
-            //dataCopy.CopyTableStructure();
-            //dataCopy.CopyTableData();
-
-
-
-
         }
     }
 }
