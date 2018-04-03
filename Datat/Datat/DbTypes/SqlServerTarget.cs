@@ -1,29 +1,24 @@
-﻿using System;
+﻿using FluentData;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FluentData;
 
-namespace Datat
+namespace Datat.DbTypes
 {
-    public class SqlServerDataBase : AbsDB
+    public class SqlServerTarget : AbsDBTarget
     {
-        public SqlServerDataBase(DbParam param)
+        public SqlServerTarget(DbParam param)
         {
             this.param = param;
         }
 
         public override IDbContext GetDbContext()
         {
-            return new DbContext().ConnectionStringName(param.ConfigConnName,
+            return new DbContext().ConnectionStringName(param.TargetConnName,
         new SqlServerProvider());
-        }
-
-        public override DataTable GetSourceTable()
-        {
-            return GetDbContext().Sql(param.InputSql).QuerySingle<DataTable>();
         }
 
         public override void GetCreateTableSql(DataTable tbl, out List<object> lstParams, out string sql)

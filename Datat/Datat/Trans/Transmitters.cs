@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Datat.DbTypes;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -9,28 +10,36 @@ namespace Datat
 {
     public class Transmitters
     {
-        public AbsDB sourceDatabase;
-        public AbsDB targetDatabase;
+        public AbsDBSource sourceDatabase;
+        public AbsDBTarget targetDatabase;
 
-        public Transmitters(AbsDB sourceDatabase, AbsDB targetDatabase)
+        public Transmitters(AbsDBSource sourceDatabase, AbsDBTarget targetDatabase)
         {
             this.sourceDatabase = sourceDatabase;
             this.targetDatabase = targetDatabase;
         }
 
-        public void CopyTable()
+        public void CopyTableStructure()
         {
-            DataTable tbl = sourceDatabase.GetSourceTable();
-            List<object> lstParams;
-            string sql;
-            targetDatabase.GetCreateTableSql(tbl, out lstParams, out sql);
+            try
+            {
+                DataTable tbl = sourceDatabase.GetSourceTable();
+                List<object> lstParams;
+                string sql;
+                targetDatabase.GetCreateTableSql(tbl, out lstParams, out sql);
 
-            int ret = targetDatabase.GetDbContext().Sql(sql).Parameters(lstParams.ToArray()).Execute();
+                int ret = targetDatabase.GetDbContext().Sql(sql).Parameters(lstParams.ToArray()).Execute();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
-  
 
-        public void CopyData()
+
+        public void CopyTableData()
         {
             DataTable tbl = sourceDatabase.GetSourceTable();
 

@@ -1,4 +1,5 @@
-﻿using FluentData;
+﻿using Datat.DbTypes;
+using FluentData;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,34 +13,30 @@ namespace Datat
     {
         public void Test()
         {
-            //Param p1 = new Param();
-            //p1.ConnStr = "MysqlConnStr";
-            //p1.SelectSql = "select * from patientbasicinfo";
-            //p1.TargetTableName = "";
+            DbParam dbParam = new DbParam();
+            dbParam.SourceConnName = "MysqlConnStr";
+            dbParam.InputSql = "select * from patientbasicinfo";
+            dbParam.TargetConnName = "SqlServerConnStr";
+            dbParam.TargetTblName = "patientbasicinfo";
 
-            //Param p2 = new Param();
-            //p2.ConnStr = "SqlServerConnStr";
-            //p2.SelectSql = "";
-            //p2.TargetTableName = "patientbasicinfo";
-
-            //DataCopy dataCopy = new DataCopy(new MysqlDataBase(p1), new SqlServerDataBase(p2));
-            //dataCopy.CopyTable();
-            //dataCopy.CopyData();
+            Transmitters dataCopy = new Transmitters(new MysqlSource(dbParam), new SqlServerTarget(dbParam));
+            dataCopy.CopyTableStructure();
+            dataCopy.CopyTableData();
 
 
-            DbParam p2 = new DbParam();
-            p2.ConfigConnName = "SqlServerConnStr";
-            p2.InputSql = "select * from patientbasicinfo";
-            p2.TargetTblName = "";
+            //DbParam p2 = new DbParam();
+            //p2.ConfigConnName = "SqlServerConnStr";
+            //p2.InputSql = "select * from patientbasicinfo";
+            //p2.TargetTblName = "";
 
-            DbParam p1 = new DbParam();
-            p1.ConfigConnName = "MysqlConnStr";
-            p1.InputSql = "";
-            p1.TargetTblName = "patientbasicinfo2";
+            //DbParam p1 = new DbParam();
+            //p1.ConfigConnName = "MysqlConnStr";
+            //p1.InputSql = "";
+            //p1.TargetTblName = "patientbasicinfo2";
 
-            Transmitters dataCopy = new Transmitters(new SqlServerDataBase(p2), new MysqlDataBase(p1));
-            dataCopy.CopyTable();
-            dataCopy.CopyData();
+            //Transmitters dataCopy = new Transmitters(new SqlServerDataBase(p2), new MysqlDataBase(p1));
+            //dataCopy.CopyTableStructure();
+            //dataCopy.CopyTableData();
 
 
 

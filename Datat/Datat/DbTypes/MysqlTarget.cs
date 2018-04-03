@@ -6,25 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentData;
 
-namespace Datat
+namespace Datat.DbTypes
 {
-    public class MysqlDataBase : AbsDB
+    public class MysqlTarget : AbsDBTarget
     {
-        public MysqlDataBase(DbParam param)
-        {
-            this.param = param;
-        }
-
         public override IDbContext GetDbContext()
         {
-            return new DbContext().ConnectionStringName(param.ConfigConnName,
+            return new DbContext().ConnectionStringName(param.TargetConnName,
                     new MySqlProvider());
-        }
-
-        public override DataTable GetSourceTable()
-        {
-            return GetDbContext().Sql(param.InputSql).QuerySingle<DataTable>();
-
         }
 
         public override void GetCreateTableSql(DataTable tbl, out List<object> lstParams, out string sql)

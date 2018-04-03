@@ -58,8 +58,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
-    <Compile Include="Transmitters.cs" />
-    <Compile Include="DbTypes\AbsDB.cs" />
+    <Compile Include="DbTypes\AbsDBSource.cs" />
+    <Compile Include="DbTypes\AbsDBTarget.cs" />
+    <Compile Include="DbTypes\MysqlTarget.cs" />
+    <Compile Include="DbTypes\SqlServerTarget.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,8 +71,9 @@
     <Compile Include="DbTypes\DbParam.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DbTypes\MysqlDataBase.cs" />
-    <Compile Include="DbTypes\SqlServerDataBase.cs" />
+    <Compile Include="DbTypes\MysqlSource.cs" />
+    <Compile Include="DbTypes\SqlServerSource.cs" />
+    <Compile Include="Trans\Transmitters.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

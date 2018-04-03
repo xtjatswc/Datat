@@ -6,14 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Datat
+namespace Datat.DbTypes
 {
-    public abstract class AbsDB
+    public abstract class AbsDBSource
     {
         public DbParam param;
 
         public abstract DataTable GetSourceTable();
         public abstract IDbContext GetDbContext();
-        public abstract void GetCreateTableSql(DataTable tbl, out List<object> lstParams, out string sql);
     }
 }
