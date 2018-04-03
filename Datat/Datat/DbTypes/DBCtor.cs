@@ -19,7 +19,16 @@ namespace Datat.DbTypes
             return lstParams;
         }
 
-        public static AbsDBSource getDBSource(DbParam dbParam)
+        public static DbParam GetDBParam(string id)
+        {
+            IDbContext sqliteContext = FluentDBContext.GetSqliteContext("SqliteConnStr");
+            DbParam dbParam = sqliteContext.Sql("select * from TranTask where ID = " + id).QuerySingle<DbParam>();
+
+            return dbParam;
+        }
+
+
+        public static AbsDBSource GetDBSource(DbParam dbParam)
         {
             AbsDBSource absDBSource = null;
             switch (dbParam.SourceDBType)
@@ -36,7 +45,7 @@ namespace Datat.DbTypes
             return absDBSource;
         }
 
-        public static AbsDBTarget getDBTarget(DbParam dbParam)
+        public static AbsDBTarget GetDBTarget(DbParam dbParam)
         {
             AbsDBTarget absDBTarget = null;
             switch (dbParam.TargetDBType)

@@ -17,8 +17,8 @@ namespace Datat
 
         public Transmitters(DbParam dbParam)
         {
-            this.sourceDatabase = DBCtor.getDBSource(dbParam);
-            this.targetDatabase = DBCtor.getDBTarget(dbParam);
+            this.sourceDatabase = DBCtor.GetDBSource(dbParam);
+            this.targetDatabase = DBCtor.GetDBTarget(dbParam);
 
             tbl = sourceDatabase.GetSourceTable();
         }

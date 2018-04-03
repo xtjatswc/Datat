@@ -13,25 +13,37 @@ namespace Datat
     {
         static void Main(string[] args)
         {
-
-            List<DbParam> lstParams = DBCtor.GetDBParams();
-            foreach (DbParam dbParam in lstParams)
+            if (args.Length > 0)
             {
-                Transmitters dataCopy = new Transmitters(dbParam);
-                try
+                DbParam dbParam = DBCtor.GetDBParam(args[0]);
+                DoTask(dbParam);
+            }
+            else
+            {
+                List<DbParam> lstParams = DBCtor.GetDBParams();
+                foreach (DbParam dbParam in lstParams)
                 {
-                    dataCopy.CopyTableStructure();
-                    dataCopy.CopyTableData();
-
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    Console.WriteLine(ex.StackTrace);
-                    Thread.Sleep(10 * 1000);
+                    DoTask(dbParam);
                 }
             }
+
         }
 
+        private static void DoTask(DbParam dbParam)
+        {
+            Transmitters dataCopy = new Transmitters(dbParam);
+            try
+            {
+                dataCopy.CopyTableStructure();
+                dataCopy.CopyTableData();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                Thread.Sleep(10 * 1000);
+            }
+        }
     }
 }
