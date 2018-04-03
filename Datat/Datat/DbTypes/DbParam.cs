@@ -12,5 +12,6 @@ namespace Datat.DbTypes
         public string InputSql { get; set; }
         public string TargetConnName { get; set; }
         public string TargetTblName { get; set; }
+        public string PrimaryKey { get; set; }
     }
 }
