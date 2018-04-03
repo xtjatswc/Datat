@@ -83,6 +83,7 @@
   <ItemGroup>
     <Compile Include="DbTypes\AbsDBSource.cs" />
     <Compile Include="DbTypes\AbsDBTarget.cs" />
+    <Compile Include="DbTypes\DBCtor.cs" />
     <Compile Include="DbTypes\MysqlTarget.cs" />
     <Compile Include="DbTypes\SqlServerTarget.cs" />
     <Compile Include="DbTypes\DbParam.cs" />

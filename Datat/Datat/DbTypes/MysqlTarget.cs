@@ -10,6 +10,11 @@ namespace Datat.DbTypes
 {
     public class MysqlTarget : AbsDBTarget
     {
+        public MysqlTarget(DbParam param)
+        {
+            this.param = param;
+        }
+
         public override IDbContext GetDbContext()
         {
             return new DbContext().ConnectionStringName(param.TargetConnName,

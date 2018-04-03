@@ -15,10 +15,10 @@ namespace Datat
 
         private DataTable tbl;
 
-        public Transmitters(AbsDBSource sourceDatabase, AbsDBTarget targetDatabase)
+        public Transmitters(DbParam dbParam)
         {
-            this.sourceDatabase = sourceDatabase;
-            this.targetDatabase = targetDatabase;
+            this.sourceDatabase = DBCtor.getDBSource(dbParam);
+            this.targetDatabase = DBCtor.getDBTarget(dbParam);
 
             tbl = sourceDatabase.GetSourceTable();
         }

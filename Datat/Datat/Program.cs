@@ -3,6 +3,7 @@ using Datat.DbTypes;
 using Datat.Trans;
 using FluentData;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading;
 
@@ -12,19 +13,11 @@ namespace Datat
     {
         static void Main(string[] args)
         {
-            IDbContext sqliteContext = FluentDBContext.GetSqliteContext("SqliteConnStr");
-            DataTable dt = sqliteContext.Sql("select * from TranTask where Enabled = 1").QuerySingle<DataTable>();
 
-            foreach (DataRow row in dt.Rows)
+            List<DbParam> lstParams = DBCtor.GetDBParams();
+            foreach (DbParam dbParam in lstParams)
             {
-                DbParam dbParam = new DbParam();
-                dbParam.SourceConnName = row["SourceConnName"].ToString();
-                dbParam.InputSql = row["InputSql"].ToString();
-                dbParam.TargetConnName = row["TargetConnName"].ToString();
-                dbParam.TargetTblName = row["TargetTblName"].ToString();
-                dbParam.PrimaryKey = row["PrimaryKey"].ToString();
-
-                Transmitters dataCopy = new Transmitters(new MysqlSource(dbParam), new SqlServerTarget(dbParam));
+                Transmitters dataCopy = new Transmitters(dbParam);
                 try
                 {
                     dataCopy.CopyTableStructure();

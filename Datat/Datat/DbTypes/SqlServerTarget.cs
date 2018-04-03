@@ -32,6 +32,9 @@ namespace Datat.DbTypes
                 DataRow row = tbl.NewRow();
                 switch (tbl.Columns[i].DataType.ToString())
                 {
+                    case "System.Int32":
+                        row[i] = 0;
+                        break;
                     case "System.Int64":
                         row[i] = 0;
                         break;
